@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body { font-family: 'Work Sans', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-[#0f172a] min-h-screen p-4 md:p-8 text-white">
+
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-blue-500">Job Application Tracker</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-[#1e293b] p-8 rounded-lg border border-gray-700 text-center">
+                <p class="text-gray-400 text-xs font-bold uppercase">Available Jobs</p>
+                <h2 id="count-all" class="text-5xl font-black mt-2">0</h2>
+            </div>
+            <div class="bg-[#1e293b] p-8 rounded-lg border border-gray-700 text-center">
+                <p class="text-gray-400 text-xs font-bold uppercase">Interview</p>
+                <h2 id="count-interview" class="text-5xl font-black text-green-500 mt-2">0</h2>
+            </div>
+            <div class="bg-[#1e293b] p-8 rounded-lg border border-gray-700 text-center">
+                <p class="text-gray-400 text-xs font-bold uppercase">Rejected</p>
+                <h2 id="count-rejected" class="text-5xl font-black text-red-500 mt-2">0</h2>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center mb-8">
+            <div class="tabs tabs-boxed bg-[#1e293b] border border-gray-700">
+                <a class="tab tab-active text-white font-semibold" onclick="setFilter('all', this)">All</a>
+                <a class="tab text-gray-400" onclick="setFilter('interview', this)">Interview</a>
+                <a class="tab text-gray-400" onclick="setFilter('rejected', this)">Rejected</a>
+            </div>
+            <div id="badge-count" class="bg-[#1e293b] text-blue-400 px-4 py-2 rounded-lg border border-gray-700 text-sm font-bold">
+                0 jobs
+            </div>
+        </div>
+
+        <div id="jobs-container" class="grid grid-cols-1 gap-6">
+
+            <div id="job-1" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Mobile First Corp</h2>
+                        <p class="text-blue-500 font-medium text-lg">React Native Developer</p>
+                        <p class="text-xs text-gray-400 mt-1">Remote • Full-time • $130k - $175k</p>
+                    </div>
+                    <button onclick="deleteThis('job-1')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Build cross-platform mobile applications using React Native for millions of users.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-1', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-1', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-2" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Google</h2>
+                        <p class="text-blue-500 font-medium text-lg">Frontend Engineer</p>
+                        <p class="text-xs text-gray-400 mt-1">Mountain View • Full-time • $150k - $180k</p>
+                    </div>
+                    <button onclick="deleteThis('job-2')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Develop world-class user interfaces for Google Search and Maps using modern frameworks.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-2', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-2', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-3" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Amazon</h2>
+                        <p class="text-blue-500 font-medium text-lg">Backend Developer</p>
+                        <p class="text-xs text-gray-400 mt-1">Seattle • Contract • $140k - $160k</p>
+                    </div>
+                    <button onclick="deleteThis('job-3')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Optimize cloud infrastructure and scale high-traffic backend services globally on AWS.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-3', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-3', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-4" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Netflix</h2>
+                        <p class="text-blue-500 font-medium text-lg">UI/UX Designer</p>
+                        <p class="text-xs text-gray-400 mt-1">Los Gatos • Full-time • $120k - $150k</p>
+                    </div>
+                    <button onclick="deleteThis('job-4')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Create intuitive and visually stunning designs for the world's leading streaming platform.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-4', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-4', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-5" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Meta</h2>
+                        <p class="text-blue-500 font-medium text-lg">Product Manager</p>
+                        <p class="text-xs text-gray-400 mt-1">Menlo Park • Full-time • $160k - $190k</p>
+                    </div>
+                    <button onclick="deleteThis('job-5')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Lead cross-functional teams to build the future of social connection in the metaverse.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-5', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-5', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-6" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Tesla</h2>
+                        <p class="text-blue-500 font-medium text-lg">Software Engineer</p>
+                        <p class="text-xs text-gray-400 mt-1">Austin • Full-time • $140k - $170k</p>
+                    </div>
+                    <button onclick="deleteThis('job-6')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Write high-performance code for autonomous driving systems and energy solutions.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-6', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-6', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-7" class="job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Stripe</h2>
+                        <p class="text-blue-500 font-medium text-lg">Full Stack Developer</p>
+                        <p class="text-xs text-gray-400 mt-1">San Francisco • Full-time • $150k - $185k</p>
+                    </div>
+                    <button onclick="deleteThis('job-7')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Build financial infrastructure for the internet and simplify payments for everyone.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-7', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-7', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+
+            <div id="job-8" class="job-8 job-card bg-[#1e293b] p-6 rounded-lg border border-gray-700 relative" data-status="none">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <div class="status-box"></div>
+                        <h2 class="text-2xl font-bold">Spotify</h2>
+                        <p class="text-blue-500 font-medium text-lg">Data Scientist</p>
+                        <p class="text-xs text-gray-400 mt-1">Stockholm • Full-time • $110k - $140k</p>
+                    </div>
+                    <button onclick="deleteThis('job-8')" class="p-2 bg-[#0f172a] rounded-lg text-gray-500 border border-gray-700"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">Analyze music trends and listener data to personalize the music experience.</p>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="updateJob('job-8', 'interview')" class="btn btn-sm btn-outline border-green-500 text-green-500 flex-1">INTERVIEW</button>
+                    <button onclick="updateJob('job-8', 'rejected')" class="btn btn-sm btn-outline border-red-500 text-red-500 flex-1">REJECTED</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-content" class="hidden flex flex-col items-center justify-center py-20 bg-[#1e293b] rounded-xl border-2 border-dashed border-gray-600 mt-6">
+            <i class="fa-solid fa-ghost text-5xl text-gray-600 mb-4"></i>
+            <h3 class="text-2xl font-bold text-white">No Jobs Available</h3>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
